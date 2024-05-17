@@ -1,0 +1,25 @@
+;FLAVOR:UltiGCode
+;TIME:1
+;MATERIAL:1
+; This program will draw a 1 cm cube and export the gcode
+; Move to starting position
+G0 F9000 X10.000 Y10.000
+; Draw the base of the cube
+G1 F3000 X20.000 E0.40000
+G1 Y20.000 E0.80000
+G1 X10.000 E1.20000
+G1 Y10.000 E1.60000
+; Draw the top of the cube
+G1 X20.000 Z10.000 E3.25664
+G1 Y20.000 E3.65664
+G1 X10.000 E4.05664
+G1 Y10.000 E4.45664
+; Draw the edges of the cube
+G1 X20.000 Z0.000 E3.60000
+G1 Z10.000 E4.85664
+G1 Y20.000 E5.25664
+G1 Z0.000 E4.00000
+G1 X10.000 E4.40000
+G1 Z10.000 E5.65664
+G1 Y10.000 E6.05664
+G1 Z0.000 E4.80000
