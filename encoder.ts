@@ -14,6 +14,8 @@ export class GCodeEncoder {
   extrusion_per_mm_movement!: number;
   extrusion_per_mm_z_movement!: number;
 
+  #saved_points: Map<string, Position> = new Map();
+
   /**
    * Start the GCode encoder
    * @param flavor The flavor of the GCode to generate
@@ -253,6 +255,41 @@ export class GCodeEncoder {
     }
   }
 
+  /**
+   * Save the current position
+   * @param name The name of the position
+   */
+  savePosition(name: string) {
+    this.#saved_points.set(
+      name,
+      new Position({
+        x: this.x!,
+        y: this.y!,
+        z: this.z!,
+        speed: this.print_speed,
+      }),
+    );
+  }
+
+  /**
+   * Move to a saved position
+   * @param name The name of the position
+   * @param extrude Whether to extrude while moving
+   */
+  moveToSavedPosition(name: string, extrude = false) {
+    const position = this.#saved_points.get(name);
+    if (position) {
+      this.move({
+        x: position.x,
+        y: position.y,
+        z: position.z,
+        absolute: true,
+        speed: position.speed,
+      }, extrude);
+      return;
+    }
+    console.error(`saved position \`${name}\` not found`);
+  }
   /**
    * End the GCode encoder
    * @returns The output of the encoder
